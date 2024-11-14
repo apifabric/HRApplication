@@ -1,0 +1,62 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Employee: Description: Represents an employee in the organization.
+EmployeeSkill: Description: Represents the skills associated with each employee.
+Skill: Description: Represents a unique skill that can be acquired by employees.
+EmployeeTraining: Description: Represents the association between employees and their training classes.
+TrainingClass: Description: Represents a training class that employees can enroll in.
+SkillMatrix: Description: Represents a matrix of all skills and the training necessary to acquire them.
+'''
+}
+
+Table Employee {
+    id INTEGER [primary key]
+    name VARCHAR 
+    hiring_date DATE 
+    skill_summary INTEGER 
+    }
+
+Table EmployeeSkill {
+    id INTEGER [primary key]
+    employee_id INTEGER 
+    skill_id INTEGER 
+    rating INTEGER 
+    }
+
+Table Skill {
+    id INTEGER [primary key]
+    description VARCHAR 
+    }
+
+Table EmployeeTraining {
+    id INTEGER [primary key]
+    employee_id INTEGER 
+    training_class_id INTEGER 
+    }
+
+Table TrainingClass {
+    id INTEGER [primary key]
+    title VARCHAR 
+    date_start DATE 
+    date_end DATE 
+    }
+
+Table SkillMatrix {
+    id INTEGER [primary key]
+    skill_id INTEGER 
+    training_class_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: EmployeeSkill.(employee_id) < Employee.(id)
+    Ref: EmployeeSkill.(skill_id) < Skill.(id)
+    Ref: EmployeeTraining.(employee_id) < Employee.(id)
+    Ref: EmployeeTraining.(training_class_id) < TrainingClass.(id)
+    Ref: SkillMatrix.(skill_id) < Skill.(id)
+    Ref: SkillMatrix.(training_class_id) < TrainingClass.(id)

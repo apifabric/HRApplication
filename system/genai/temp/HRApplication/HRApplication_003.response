@@ -1,0 +1,50 @@
+{
+    "models": [
+        {
+            "classname": "Employee",
+            "code": "class Employee(Base):\n    \"\"\"Description: Represents an employee in the organization.\"\"\"\n    __tablename__ = 'employee'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    hiring_date = Column(Date)\n    skill_summary = Column(Integer)\n\n    def __repr__(self):\n        return f\"<Employee(id={self.id}, name={self.name})>\"",
+            "description": "Represents an employee in the organization.",
+            "name": "Employee"
+        },
+        {
+            "classname": "Skill",
+            "code": "class Skill(Base):\n    \"\"\"Description: Represents a unique skill that can be acquired by employees.\"\"\"\n    __tablename__ = 'skill'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    description = Column(String)\n\n    def __repr__(self):\n        return f\"<Skill(id={self.id}, description={self.description})>\"",
+            "description": "Represents a unique skill that can be acquired by employees.",
+            "name": "Skill"
+        },
+        {
+            "classname": "EmployeeSkill",
+            "code": "class EmployeeSkill(Base):\n    \"\"\"Description: Represents the skills associated with each employee.\"\"\"\n    __tablename__ = 'employee_skill'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    employee_id = Column(Integer, ForeignKey('employee.id'))\n    skill_id = Column(Integer, ForeignKey('skill.id'))\n    rating = Column(Integer)\n\n    def __repr__(self):\n        return f\"<EmployeeSkill(employee_id={self.employee_id}, skill_id={self.skill_id}, rating={self.rating})>\"",
+            "description": "Represents the skills associated with each employee.",
+            "name": "EmployeeSkill"
+        },
+        {
+            "classname": "TrainingClass",
+            "code": "class TrainingClass(Base):\n    \"\"\"Description: Represents a training class that employees can enroll in.\"\"\"\n    __tablename__ = 'training_class'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    title = Column(String)\n    date_start = Column(Date)\n    date_end = Column(Date)\n\n    def __repr__(self):\n        return f\"<TrainingClass(id={self.id}, title={self.title})>\"",
+            "description": "Represents a training class that employees can enroll in.",
+            "name": "TrainingClass"
+        },
+        {
+            "classname": "EmployeeTraining",
+            "code": "class EmployeeTraining(Base):\n    \"\"\"Description: Represents the association between employees and their training classes.\"\"\"\n    __tablename__ = 'employee_training'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    employee_id = Column(Integer, ForeignKey('employee.id'))\n    training_class_id = Column(Integer, ForeignKey('training_class.id'))\n\n    def __repr__(self):\n        return f\"<EmployeeTraining(employee_id={self.employee_id}, training_class_id={self.training_class_id})>\"",
+            "description": "Represents the association between employees and their training classes.",
+            "name": "EmployeeTraining"
+        },
+        {
+            "classname": "SkillMatrix",
+            "code": "class SkillMatrix(Base):\n    \"\"\"Description: Represents a matrix of all skills and the training necessary to acquire them.\"\"\"\n    __tablename__ = 'skill_matrix'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    skill_id = Column(Integer, ForeignKey('skill.id'))\n    training_class_id = Column(Integer, ForeignKey('training_class.id'))\n\n    def __repr__(self):\n        return f\"<SkillMatrix(skill_id={self.skill_id}, training_class_id={self.training_class_id})>\"",
+            "description": "Represents a matrix of all skills and the training necessary to acquire them.",
+            "name": "SkillMatrix"
+        }
+    ],
+    "rules": [
+        {
+            "name": "Employee Skill Summary Calculation",
+            "description": "Calculates total skill rating for an employee as the sum of their skill ratings.",
+            "use_case": "Employees need a summary of their skills for evaluation.",
+            "code": "Rule.sum(derive=Employee.skill_summary, as_sum_of=EmployeeSkill.rating)"
+        }
+    ],
+    "test_data": "from datetime import date\n\n# Create Employee test data\nemployee1 = Employee(id=1, name='Alice', hiring_date=date(2020, 1, 15), skill_summary=10)\nemployee2 = Employee(id=2, name='Bob', hiring_date=date(2019, 4, 20), skill_summary=15)\nemployee3 = Employee(id=3, name='Charlie', hiring_date=date(2021, 5, 25), skill_summary=20)\nemployee4 = Employee(id=4, name='Dana', hiring_date=date(2018, 7, 30), skill_summary=25)\n\n# Create Skill test data\nskill1 = Skill(id=1, description='Python Programming')\nskill2 = Skill(id=2, description='Data Analysis')\nskill3 = Skill(id=3, description='Project Management')\nskill4 = Skill(id=4, description='Leadership')\n\n# Create EmployeeSkill test data\nemployee_skill1 = EmployeeSkill(id=1, employee_id=1, skill_id=1, rating=5)\nemployee_skill2 = EmployeeSkill(id=2, employee_id=2, skill_id=2, rating=3)\nemployee_skill3 = EmployeeSkill(id=3, employee_id=3, skill_id=3, rating=4)\nemployee_skill4 = EmployeeSkill(id=4, employee_id=4, skill_id=4, rating=5)\n\n# Create TrainingClass test data\ntraining_class1 = TrainingClass(id=1, title='Advanced Python', date_start=date(2023, 1, 10), date_end=date(2023, 2, 10))\ntraining_class2 = TrainingClass(id=2, title='Data Science Bootcamp', date_start=date(2023, 3, 15), date_end=date(2023, 4, 15))\ntraining_class3 = TrainingClass(id=3, title='Project Leadership', date_start=date(2023, 5, 20), date_end=date(2023, 6, 20))\ntraining_class4 = TrainingClass(id=4, title='Management Essentials', date_start=date(2023, 7, 25), date_end=date(2023, 8, 25))\n\n# Create EmployeeTraining test data\nemployee_training1 = EmployeeTraining(id=1, employee_id=1, training_class_id=1)\nemployee_training2 = EmployeeTraining(id=2, employee_id=2, training_class_id=2)\nemployee_training3 = EmployeeTraining(id=3, employee_id=3, training_class_id=3)\nemployee_training4 = EmployeeTraining(id=4, employee_id=4, training_class_id=4)\n\n# Create SkillMatrix test data\nskill_matrix1 = SkillMatrix(id=1, skill_id=1, training_class_id=1)\nskill_matrix2 = SkillMatrix(id=2, skill_id=2, training_class_id=2)\nskill_matrix3 = SkillMatrix(id=3, skill_id=3, training_class_id=3)\nskill_matrix4 = SkillMatrix(id=4, skill_id=4, training_class_id=4)",
+    "name": "HRApplication"
+}

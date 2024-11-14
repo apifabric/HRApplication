@@ -1,0 +1,138 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="description" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Skill_form_edit" 
+        service="Skill" 
+        entity="Skill" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #description attr="description" label=" description*" enabled="yes" required="no" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="EMPLOYEESKILL-skill_id">
+    <div layout-padding>
+      <o-table 
+        attr="EmployeeSkillTable" 
+        service="EmployeeSkill" 
+        entity="EmployeeSkill" 
+        keys="id"
+        parent-keys="skill_id:id"
+        columns="id;employee_id;skill_id;rating"  
+        horizontal-scroll="yes"
+        detail-form-route="EmployeeSkill" 
+        edit-form-route="EmployeeSkill"
+        visible-columns="id;employee_id;skill_id;rating"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="employee_id" title="employee_id">
+    <o-table-cell-renderer-service attr="employee_id" 
+        service="Employee" entity="EmployeeType" columns="id;name"
+        parent-keys="id:employee_id"
+        value-column="name" keys="employee_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="skill_id" title="skill_id">
+    <o-table-cell-renderer-service attr="skill_id" 
+        service="Skill" entity="SkillType" columns="id;description"
+        parent-keys="id:skill_id"
+        value-column="description" keys="skill_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #rating attr="rating" title="rating" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="SKILLMATRIX-skill_id">
+    <div layout-padding>
+      <o-table 
+        attr="SkillMatrixTable" 
+        service="SkillMatrix" 
+        entity="SkillMatrix" 
+        keys="id"
+        parent-keys="skill_id:id"
+        columns="id;skill_id;training_class_id"  
+        horizontal-scroll="yes"
+        detail-form-route="SkillMatrix" 
+        edit-form-route="SkillMatrix"
+        visible-columns="id;skill_id;training_class_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="skill_id" title="skill_id">
+    <o-table-cell-renderer-service attr="skill_id" 
+        service="Skill" entity="SkillType" columns="id;description"
+        parent-keys="id:skill_id"
+        value-column="description" keys="skill_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="training_class_id" title="training_class_id">
+    <o-table-cell-renderer-service attr="training_class_id" 
+        service="TrainingClass" entity="TrainingClassType" columns="id;id"
+        parent-keys="id:training_class_id"
+        value-column="id" keys="training_class_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="SkillMatrix" mode="tab" title="SKILLMATRIX">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="SkillMatrixTable" 
+            service="SkillMatrix" 
+            entity="SkillMatrix" 
+            title="SKILLMATRIX"
+            keys="id"
+            columns="id;skill_id;training_class_id" 
+            header-actions="R;D"
+            visible-columns="id;skill_id;training_class_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="skill_id" title="skill_id">
+    <o-table-cell-renderer-service attr="skill_id" 
+        service="Skill" entity="SkillType" columns="id;description"
+        parent-keys="id:skill_id"
+        value-column="description" keys="skill_id"
+        visible-columns="description" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="training_class_id" title="training_class_id">
+    <o-table-cell-renderer-service attr="training_class_id" 
+        service="TrainingClass" entity="TrainingClassType" columns="id;id"
+        parent-keys="id:training_class_id"
+        value-column="id" keys="training_class_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

@@ -1,0 +1,191 @@
+about:
+  date: November 14, 2024 22:35:45
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 6
+  number_tables: 6
+info_toggle_checked: true
+resources:
+  Employee:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: hiring_date
+      type: DATE
+    - name: skill_summary
+    - name: id
+    description: 'Description: Represents an employee in the organization.'
+    info_list: 'Description: Represents an employee in the organization.'
+    tab_groups:
+    - direction: tomany
+      fks:
+      - employee_id
+      name: EmployeeSkillList
+      resource: EmployeeSkill
+    - direction: tomany
+      fks:
+      - employee_id
+      name: EmployeeTrainingList
+      resource: EmployeeTraining
+    type: Employee
+    user_key: name
+  EmployeeSkill:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: employee_id
+    - name: skill_id
+    - name: rating
+    description: 'Description: Represents the skills associated with each employee.'
+    info_list: 'Description: Represents the skills associated with each employee.'
+    tab_groups:
+    - direction: toone
+      fks:
+      - employee_id
+      name: employee
+      resource: Employee
+    - direction: toone
+      fks:
+      - skill_id
+      name: skill
+      resource: Skill
+    type: EmployeeSkill
+    user_key: id
+  EmployeeTraining:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: employee_id
+    - name: training_class_id
+    description: 'Description: Represents the association between employees and their
+      training classes.'
+    info_list: 'Description: Represents the association between employees and their
+      training classes.'
+    tab_groups:
+    - direction: toone
+      fks:
+      - employee_id
+      name: employee
+      resource: Employee
+    - direction: toone
+      fks:
+      - training_class_id
+      name: training_class
+      resource: TrainingClass
+    type: EmployeeTraining
+    user_key: id
+  Skill:
+    attributes:
+    - label: ' description*'
+      name: description
+      search: true
+      sort: true
+    - name: id
+    description: 'Description: Represents a unique skill that can be acquired by employees.'
+    info_list: 'Description: Represents a unique skill that can be acquired by employees.'
+    tab_groups:
+    - direction: tomany
+      fks:
+      - skill_id
+      name: EmployeeSkillList
+      resource: EmployeeSkill
+    - direction: tomany
+      fks:
+      - skill_id
+      name: SkillMatrixList
+      resource: SkillMatrix
+    type: Skill
+    user_key: description
+  SkillMatrix:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: skill_id
+    - name: training_class_id
+    description: 'Description: Represents a matrix of all skills and the training
+      necessary to acquire them.'
+    info_list: 'Description: Represents a matrix of all skills and the training necessary
+      to acquire them.'
+    tab_groups:
+    - direction: toone
+      fks:
+      - skill_id
+      name: skill
+      resource: Skill
+    - direction: toone
+      fks:
+      - training_class_id
+      name: training_class
+      resource: TrainingClass
+    type: SkillMatrix
+    user_key: id
+  TrainingClass:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: title
+    - name: date_start
+      type: DATE
+    - name: date_end
+      type: DATE
+    description: 'Description: Represents a training class that employees can enroll
+      in.'
+    info_list: 'Description: Represents a training class that employees can enroll
+      in.'
+    tab_groups:
+    - direction: tomany
+      fks:
+      - training_class_id
+      name: EmployeeTrainingList
+      resource: EmployeeTraining
+    - direction: tomany
+      fks:
+      - training_class_id
+      name: SkillMatrixList
+      resource: SkillMatrix
+    type: TrainingClass
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'
